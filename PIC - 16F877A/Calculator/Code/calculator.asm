@@ -728,17 +728,21 @@ _main:
 	CALL       _Keypad_Init+0
 ;calculator.c,141 :: 		Lcd_Init();
 	CALL       _Lcd_Init+0
-;calculator.c,142 :: 		Lcd_Cmd(_LCD_CLEAR);
+;calculator.c,142 :: 		Lcd_Cmd(_LCD_CURSOR_OFF);
+	MOVLW      12
+	MOVWF      FARG_Lcd_Cmd_out_char+0
+	CALL       _Lcd_Cmd+0
+;calculator.c,143 :: 		Lcd_Cmd(_LCD_CLEAR);
 	MOVLW      1
 	MOVWF      FARG_Lcd_Cmd_out_char+0
 	CALL       _Lcd_Cmd+0
-;calculator.c,143 :: 		Lcd_Cmd(_LCD_RETURN_HOME);
+;calculator.c,144 :: 		Lcd_Cmd(_LCD_RETURN_HOME);
 	MOVLW      2
 	MOVWF      FARG_Lcd_Cmd_out_char+0
 	CALL       _Lcd_Cmd+0
-;calculator.c,145 :: 		while (1) {
+;calculator.c,146 :: 		while (1) {
 L_main50:
-;calculator.c,146 :: 		mode == 0? Lcd_Out(1, 1, "/, x, -, +"): Lcd_Out(1, 1, "%, sqrt,cbrt, !");
+;calculator.c,147 :: 		mode == 0? Lcd_Out(1, 1, "/, x, -, +"): Lcd_Out(1, 1, "%, sqrt,cbrt, !");
 	MOVLW      0
 	XORWF      _mode+1, 0
 	BTFSS      STATUS+0, 2
@@ -765,7 +769,7 @@ L_main52:
 	MOVWF      FARG_Lcd_Out_text+0
 	CALL       _Lcd_Out+0
 L_main53:
-;calculator.c,148 :: 		input = get_char(Keypad_Key_Press(), mode);
+;calculator.c,149 :: 		input = get_char(Keypad_Key_Press(), mode);
 	CALL       _Keypad_Key_Press+0
 	MOVF       R0+0, 0
 	MOVWF      FARG_get_char_key+0
@@ -776,11 +780,11 @@ L_main53:
 	CALL       _get_char+0
 	MOVF       R0+0, 0
 	MOVWF      _input+0
-;calculator.c,150 :: 		if (input) {
+;calculator.c,151 :: 		if (input) {
 	MOVF       R0+0, 0
 	BTFSC      STATUS+0, 2
 	GOTO       L_main54
-;calculator.c,151 :: 		Lcd_Chr(2, pos + 1, input);
+;calculator.c,152 :: 		Lcd_Chr(2, pos + 1, input);
 	MOVLW      2
 	MOVWF      FARG_Lcd_Chr_row+0
 	INCF       _pos+0, 0
@@ -788,22 +792,22 @@ L_main53:
 	MOVF       _input+0, 0
 	MOVWF      FARG_Lcd_Chr_out_char+0
 	CALL       _Lcd_Chr+0
-;calculator.c,152 :: 		pos++;
+;calculator.c,153 :: 		pos++;
 	INCF       _pos+0, 1
 	BTFSC      STATUS+0, 2
 	INCF       _pos+1, 1
-;calculator.c,153 :: 		}
+;calculator.c,154 :: 		}
 L_main54:
-;calculator.c,155 :: 		if (input == 'q') {
+;calculator.c,156 :: 		if (input == 'q') {
 	MOVF       _input+0, 0
 	XORLW      113
 	BTFSS      STATUS+0, 2
 	GOTO       L_main55
-;calculator.c,156 :: 		mode++;
+;calculator.c,157 :: 		mode++;
 	INCF       _mode+0, 1
 	BTFSC      STATUS+0, 2
 	INCF       _mode+1, 1
-;calculator.c,157 :: 		mode %= 2;
+;calculator.c,158 :: 		mode %= 2;
 	MOVLW      2
 	MOVWF      R4+0
 	MOVLW      0
@@ -821,14 +825,14 @@ L_main54:
 	MOVWF      _mode+0
 	MOVF       R0+1, 0
 	MOVWF      _mode+1
-;calculator.c,158 :: 		pos = 0;
+;calculator.c,159 :: 		pos = 0;
 	CLRF       _pos+0
 	CLRF       _pos+1
-;calculator.c,159 :: 		Lcd_Cmd(_LCD_CLEAR);
+;calculator.c,160 :: 		Lcd_Cmd(_LCD_CLEAR);
 	MOVLW      1
 	MOVWF      FARG_Lcd_Cmd_out_char+0
 	CALL       _Lcd_Cmd+0
-;calculator.c,160 :: 		} else if ('0' <= input && input <= '9') {
+;calculator.c,161 :: 		} else if ('0' <= input && input <= '9') {
 	GOTO       L_main56
 L_main55:
 	MOVLW      48
@@ -840,12 +844,12 @@ L_main55:
 	BTFSS      STATUS+0, 0
 	GOTO       L_main59
 L__main68:
-;calculator.c,161 :: 		if (operation == '_') {
+;calculator.c,162 :: 		if (operation == '_') {
 	MOVF       _operation+0, 0
 	XORLW      95
 	BTFSS      STATUS+0, 2
 	GOTO       L_main60
-;calculator.c,162 :: 		num1 = num1 * 10 + (input - '0');
+;calculator.c,163 :: 		num1 = num1 * 10 + (input - '0');
 	MOVF       _num1+0, 0
 	MOVWF      R0+0
 	MOVF       _num1+1, 0
@@ -869,10 +873,10 @@ L__main68:
 	ADDLW      1
 	ADDWF      R2+1, 0
 	MOVWF      _num1+1
-;calculator.c,163 :: 		} else {
+;calculator.c,164 :: 		} else {
 	GOTO       L_main61
 L_main60:
-;calculator.c,164 :: 		num2 = num2 * 10 + (input - '0');
+;calculator.c,165 :: 		num2 = num2 * 10 + (input - '0');
 	MOVF       _num2+0, 0
 	MOVWF      R0+0
 	MOVF       _num2+1, 0
@@ -896,20 +900,20 @@ L_main60:
 	ADDLW      1
 	ADDWF      R2+1, 0
 	MOVWF      _num2+1
-;calculator.c,165 :: 		}
+;calculator.c,166 :: 		}
 L_main61:
-;calculator.c,166 :: 		} else if (input == '=') {
+;calculator.c,167 :: 		} else if (input == '=') {
 	GOTO       L_main62
 L_main59:
 	MOVF       _input+0, 0
 	XORLW      61
 	BTFSS      STATUS+0, 2
 	GOTO       L_main63
-;calculator.c,167 :: 		calc(operation);
+;calculator.c,168 :: 		calc(operation);
 	MOVF       _operation+0, 0
 	MOVWF      FARG_calc_operation+0
 	CALL       _calc+0
-;calculator.c,169 :: 		FloatToStr(result, out);
+;calculator.c,170 :: 		FloatToStr(result, out);
 	MOVF       _result+0, 0
 	MOVWF      FARG_FloatToStr_fnum+0
 	MOVF       _result+1, 0
@@ -921,7 +925,7 @@ L_main59:
 	MOVLW      _out+0
 	MOVWF      FARG_FloatToStr_str+0
 	CALL       _FloatToStr+0
-;calculator.c,171 :: 		Lcd_Out(2, 7, out);
+;calculator.c,172 :: 		Lcd_Out(2, 7, out);
 	MOVLW      2
 	MOVWF      FARG_Lcd_Out_row+0
 	MOVLW      7
@@ -929,7 +933,7 @@ L_main59:
 	MOVLW      _out+0
 	MOVWF      FARG_Lcd_Out_text+0
 	CALL       _Lcd_Out+0
-;calculator.c,173 :: 		delay_ms(2000);
+;calculator.c,174 :: 		delay_ms(2000);
 	MOVLW      11
 	MOVWF      R11+0
 	MOVLW      38
@@ -945,46 +949,46 @@ L_main64:
 	GOTO       L_main64
 	NOP
 	NOP
-;calculator.c,174 :: 		Lcd_Cmd(_LCD_CLEAR);
+;calculator.c,175 :: 		Lcd_Cmd(_LCD_CLEAR);
 	MOVLW      1
 	MOVWF      FARG_Lcd_Cmd_out_char+0
 	CALL       _Lcd_Cmd+0
-;calculator.c,176 :: 		num1 = 0;
+;calculator.c,177 :: 		num1 = 0;
 	CLRF       _num1+0
 	CLRF       _num1+1
-;calculator.c,177 :: 		num2 = 0;
+;calculator.c,178 :: 		num2 = 0;
 	CLRF       _num2+0
 	CLRF       _num2+1
-;calculator.c,178 :: 		result = 0;
+;calculator.c,179 :: 		result = 0;
 	CLRF       _result+0
 	CLRF       _result+1
 	CLRF       _result+2
 	CLRF       _result+3
-;calculator.c,179 :: 		pos = 0;
+;calculator.c,180 :: 		pos = 0;
 	CLRF       _pos+0
 	CLRF       _pos+1
-;calculator.c,180 :: 		operation = '_';
+;calculator.c,181 :: 		operation = '_';
 	MOVLW      95
 	MOVWF      _operation+0
-;calculator.c,181 :: 		} else if(input){
+;calculator.c,182 :: 		} else if(input){
 	GOTO       L_main65
 L_main63:
 	MOVF       _input+0, 0
 	BTFSC      STATUS+0, 2
 	GOTO       L_main66
-;calculator.c,182 :: 		operation = input;
+;calculator.c,183 :: 		operation = input;
 	MOVF       _input+0, 0
 	MOVWF      _operation+0
-;calculator.c,183 :: 		}
+;calculator.c,184 :: 		}
 L_main66:
 L_main65:
 L_main62:
 L_main56:
-;calculator.c,184 :: 		Lcd_Cmd(_LCD_RETURN_HOME);
+;calculator.c,185 :: 		Lcd_Cmd(_LCD_RETURN_HOME);
 	MOVLW      2
 	MOVWF      FARG_Lcd_Cmd_out_char+0
 	CALL       _Lcd_Cmd+0
-;calculator.c,185 :: 		delay_ms(300);
+;calculator.c,186 :: 		delay_ms(300);
 	MOVLW      2
 	MOVWF      R11+0
 	MOVLW      134
@@ -998,9 +1002,9 @@ L_main67:
 	GOTO       L_main67
 	DECFSZ     R11+0, 1
 	GOTO       L_main67
-;calculator.c,186 :: 		}
-	GOTO       L_main50
 ;calculator.c,187 :: 		}
+	GOTO       L_main50
+;calculator.c,188 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main

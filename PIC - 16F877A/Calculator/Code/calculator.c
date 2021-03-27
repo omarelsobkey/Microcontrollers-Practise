@@ -139,6 +139,7 @@ void calc(char operation) {
 void main() {
     Keypad_Init();
     Lcd_Init();
+    Lcd_Cmd(_LCD_CURSOR_OFF);
     Lcd_Cmd(_LCD_CLEAR);
     Lcd_Cmd(_LCD_RETURN_HOME);
     

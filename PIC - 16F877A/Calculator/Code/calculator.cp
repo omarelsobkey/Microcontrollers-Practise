@@ -1,5 +1,5 @@
-#line 1 "C:/Users/DELL/Desktop/Electronics/a - Microcontrollers Codes/PIC - 16F877A/Calculator/Code/calculator.c"
-#line 9 "C:/Users/DELL/Desktop/Electronics/a - Microcontrollers Codes/PIC - 16F877A/Calculator/Code/calculator.c"
+#line 1 "C:/Users/DELL/Desktop/Workspace/GitHup/Microcontrollers/PIC - 16F877A/Calculator/Code/calculator.c"
+#line 9 "C:/Users/DELL/Desktop/Workspace/GitHup/Microcontrollers/PIC - 16F877A/Calculator/Code/calculator.c"
 char keypadPort at PORTD;
 
 sbit LCD_RS at RB0_bit;
@@ -133,6 +133,7 @@ void calc(char operation) {
 void main() {
  Keypad_Init();
  Lcd_Init();
+ Lcd_Cmd(_LCD_CURSOR_OFF);
  Lcd_Cmd(_LCD_CLEAR);
  Lcd_Cmd(_LCD_RETURN_HOME);
 
